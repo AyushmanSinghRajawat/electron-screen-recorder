@@ -3,19 +3,20 @@ const fs = require("fs");
 
 let recordedBlob, video;
 
+const notify = require('electron-notification');
+
 ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
   try {
     console.log("executed");
+
+    
+
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
         mandatory: {
           chromeMediaSource: "desktop",
           chromeMediaSourceId: sourceId,
-          //   minWidth: 1280,
-          //   minHeight: 720,
-          //   maxWidth: 1280,
-          //   maxHeight: 720,
         },
       },
     });
@@ -79,6 +80,12 @@ const onRecordingStop = (mediaRecorder, recordedChunks) => {
 const initiateRecordControllers = (mediaRecorder) => {
   document.getElementById("start-record").addEventListener("click", () => {
     mediaRecorder.start();
+    notify('Screen recording', {
+      body: 'Recording the Screen'
+    }, () => {
+      console.log('Notification was clicked!')
+    })
+    
     document.getElementById("start-record").disabled = true;
     document.getElementById("stop-record").disabled = false;
   });
