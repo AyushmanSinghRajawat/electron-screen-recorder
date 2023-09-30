@@ -1,9 +1,10 @@
 const { ipcRenderer } = require("electron");
 const fs = require("fs");
+const notify = require('electron-notification');
 
 let recordedBlob, video;
 
-const notify = require('electron-notification');
+
 
 ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
   try {
